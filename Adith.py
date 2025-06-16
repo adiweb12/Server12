@@ -17,7 +17,7 @@ app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'a_very_secret_key_for_d
 # ⚠️⚠️ CRITICAL SECURITY WARNING: DATABASE URL HARDCODED ⚠️⚠️
 # THIS IS HIGHLY INSECURE AND SHOULD NEVER BE USED IN PRODUCTION OR PUBLIC REPOSITORIES.
 # Replace this with your actual Render Internal Database URL.
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://db_9thcut_user:ZTWfNofzL5K3XorzGXslvGItYZ1qorZI@dpg-d17ng5ruibrs73ftbmg0-a/db_9thcut"
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://db_9thcut_vora_user:8EbfvH6E70yYue0KRSqb3KebXKCq1e61@dpg-d182v1qdbo4c73d819t0-a/db_9thcut_vora"
 # ⚠️⚠️ END OF CRITICAL SECURITY WARNING ⚠️⚠️
 
 # This setting suppresses a warning about tracking object modifications.
