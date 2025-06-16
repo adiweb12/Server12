@@ -2,3 +2,6 @@ Flask
 Werkzeug
 flask-cors
 gunicorn
+psycopg2-binary # Add this
+SQLAlchemy      # Highly recommended to use an ORM like SQLAlchemy
+Flask-SQLAlchemy # To integrate SQLAlchemy with Flask
