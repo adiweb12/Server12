@@ -2,14 +2,16 @@ import os
 from flask import Flask, request, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_cors import CORS
-from flask_sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy # Import Flask-SQLAlchemy
 
 # Initialize Flask application
 app = Flask(__name__)
 
 # --- Configuration ---
-# Get SECRET_KEY from environment variables for security.
-# For local development, fallback is provided, but use an environment variable in Render.
+# Get SECRET_KEY from environment variables for production
+# For local development, you can set it in a .env file or use a fallback.
+# IMPORTANT: In production, ensure this is a strong, truly random key
+# set as an environment variable on Render (e.g., in Settings -> Environment)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'a_very_secret_key_for_development_only')
 
 # ⚠️⚠️ CRITICAL SECURITY WARNING: DATABASE URL HARDCODED ⚠️⚠️
@@ -25,7 +27,10 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 # --- CORS Configuration ---
-# Replace 'https://9thcutstudios.netlify.app' with your actual Netlify frontend URL.
+# IMPORTANT: Replace 'https://9thcutstudios.netlify.app' with your actual Netlify frontend URL.
+# This explicitly allows requests from your Netlify domain.
+# For local development, you might temporarily use CORS(app) to allow all origins,
+# but it's best to be specific in production.
 CORS(app, resources={r"/*": {"origins": "https://9thcutstudios.netlify.app"}})
 
 # --- Define your User model (SQLAlchemy ORM) ---
@@ -35,7 +40,8 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    password_hash = db.Column(db.String(128), nullable=False)
+    # 💥 FIXED: Increased length for password_hash to accommodate scrypt hashes
+    password_hash = db.Column(db.String(256), nullable=False)
 
     def __repr__(self):
         return f'<User {self.username}>'
@@ -44,8 +50,8 @@ class User(db.Model):
 # This function creates the database tables based on your SQLAlchemy models.
 # It runs when your app starts on Render via Gunicorn.
 def init_db():
-    with app.app_context():
-        db.create_all()
+    with app.app_context(): # Ensures we're in the Flask application context
+        db.create_all() # Creates tables for all models (like 'User') that don't exist
         print("Database tables created/ensured.")
 
 # Call init_db() on app startup
