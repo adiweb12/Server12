@@ -10,7 +10,7 @@ app = Flask(__name__)
 # ABSOLUTELY DO NOT USE THIS IN PRODUCTION!
 # Replace with your actual PostgreSQL connection details for testing.
 # Format: "postgresql://username:password@host:port/database_name"
-DATABASE_URL = "postgresql://myuser:mypassrongpassword@localhost:5432/mydatabase"
+DATABASE_URL = "postgresql://db_9thcut_vora_user:8EbfvH6E70yYue0KRSqb3KebXKCq1e61@dpg-d182v1qdbo4c73d819t0-a/db_9thcut_vora"
 
 # Configure Flask-SQLAlchemy to use the hardcoded URL
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
